@@ -30,7 +30,7 @@ def get_notes():
     """ Get all the notes and chords from the midi files in the ./midi_songs directory """
     notes = []
 
-    for file in glob.glob("back-in-black-riff_set/*.mid"):
+    for file in glob.glob("back-in-black_set/*.mid"):
         midi = converter.parse(file)
 
         print("Parsing %s" % file)
@@ -46,6 +46,8 @@ def get_notes():
         for element in notes_to_parse:
             if isinstance(element, note.Note):
                 notes.append(str(element.pitch))
+            elif isinstance(element, note.Rest):
+                notes.append('rr'.join(str(element.duration.type)))
             elif isinstance(element, chord.Chord):
                 notes.append('.'.join(str(n) for n in element.normalOrder))
 
